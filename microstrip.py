@@ -87,7 +87,7 @@ class Microstrip:
 
     def fdm(self):
         '''
-        Funcion for finding the voltage distribution of a shielded microstrip.
+        Method for finding the voltage distribution of a shielded microstrip.
         Uses an iterative process to find the voltage values, and stops when
         the residual between iterations falls below the desired tolerance.
         '''
@@ -132,7 +132,7 @@ class Microstrip:
 
     def compute_cpul(s):
         '''
-        Function for computing the capacitance per unit length of
+        Method for computing the capacitance per unit length of
         the shielded microstrip. Find the charge per unit length
         of the conducting strip using Gauss's Law (in 2D). Then use
         the equation C=Q*V to find capacitance (per unit length).
@@ -140,13 +140,17 @@ class Microstrip:
         cpul = 0
         V = s.V
 
-        # Process nodes at the air-dielectric boundary first.
+        # Process the pair of nodes at the air-dielectric boundary first.
         cpul += 0.5 * (s.eps_r+1) * (V[s.h, s.x] - V[s.h, s.x-1])
         cpul += 0.5 * (s.eps_r+1) * (V[s.h, s.x+s.w-1] - V[s.h, s.x+s.w])
         for i in range(s.h+1, s.h+s.t):
+            # Estimate the line integral along the left and right
+            # side of the conducting strip.
             cpul += V[i, s.x] - V[i, s.x-1]
             cpul += V[i, s.x+s.w-1] - V[i, s.x+s.w]
         for j in range(s.x, s.x+s.w):
+            # Estimate the line integral along the top and bottom
+            # side of the conducting strip.
             cpul += s.eps_r * (V[s.h, j] - V[s.h-1, j])
             cpul += V[s.h+s.t-1, j] - V[s.h+s.t, j]
         cpul *= epsilon_0/s.V_0
@@ -155,6 +159,10 @@ class Microstrip:
         s.cpul = cpul
         print("C/L = {:.4e} F/m".format(s.cpul))
 
+# Dimensions for the microstrip. A horizontal offset
+# 'x' can be specified if the conducting strip is not
+# centered on the dielectric material. Its value
+# should be set to None otherwise.
 DIMS = {
     'units': 'cm',
     'W': 4,
