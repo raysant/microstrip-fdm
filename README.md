@@ -1,5 +1,5 @@
 # Microstrip FDM
-Program for approximating the steady-state voltage distribution of a microstrip using a finite difference method (FDM). The sides of the microstrip are at ground potential and the conducting strip at the center is excited with a voltage of V<sub>0</sub>. The approximation is made under the assumption that the microstrip is long enough in the z-direction that we can ignore any fringing fields.
+Program for approximating the steady-state voltage distribution inside a microstrip using a finite difference method (FDM). The sides of the microstrip are at ground potential and the conducting strip at the center is excited with a voltage of V<sub>0</sub>. The approximation is made under the assumption that the microstrip is long enough in the z-direction that we can ignore any fringing fields.
 
 Additional functions are provided to estimate the capacitance per unit length, and to display the voltage distribution in 3D or as contour plot.
 
@@ -37,12 +37,13 @@ DIMS = {
 }
 ```
 
-The other parameters can be specified when you create a new Microsrip object.
+The other parameters can be specified when you create a new Microstrip object.
 
 ```python
 M1 = Microstrip(V_0=5, eps_r=1, max_res=0.0001, **DIMS)
 ```
 
-### Outputs
+
+## Outputs
 <br/>
 <p align="center"><img src="images/plots.png" /></p>
